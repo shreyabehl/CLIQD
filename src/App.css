@@ -6,69 +6,20 @@
 .app-main {
   margin-left: var(--sidebar-w);
   flex: 1;
-  padding: 40px 36px;
-  max-width: calc(100vw - var(--sidebar-w));
-  animation: fadeUp 0.35s ease both;
+  min-height: 100vh;
 }
 
-/* Mobile topbar — hidden on desktop */
-.mobile-topbar {
-  display: none;
+.app-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
 }
 
 @media (max-width: 768px) {
   .app-main {
     margin-left: 0;
-    padding: 20px 16px 88px;
-    max-width: 100%;
+    margin-top: 60px;
   }
-
-  .mobile-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-  }
-
-  .mobile-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.4rem;
-    letter-spacing: -0.04em;
-  }
-
-  .mobile-logo span {
-    color: var(--accent);
-  }
-}
-
-/* Shared avatar */
-.avatar {
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--gold));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-.avatar.sm {
-  width: 32px;
-  height: 32px;
-  font-size: 0.8rem;
-}
-
-.avatar.md {
-  width: 36px;
-  height: 36px;
-  font-size: 0.88rem;
-}
-
-.avatar.lg {
-  width: 72px;
-  height: 72px;
-  font-size: 1.8rem;
 }
