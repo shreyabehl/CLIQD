@@ -40,6 +40,7 @@ export default function CreatePost() {
   const [loading, setLoading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [customProduct, setCustomProduct] = useState({ name: '', price: '' });
+  const [productLink, setProductLink] = useState('');
 
   const handleFile = (file) => {
     if (!file) return;
@@ -77,13 +78,14 @@ export default function CreatePost() {
       id: uuidv4(),
       productName: product.name,
       price: product.price,
-      link: '#',
+      link: productLink.trim() || '#',
       x: pendingCoords.x,
       y: pendingCoords.y,
     };
     setTags([...tags, newTag]);
     setPendingCoords(null);
     setProductSearch('');
+    setProductLink('');
   };
 
   const addCustomTag = () => {
@@ -92,7 +94,7 @@ export default function CreatePost() {
       id: uuidv4(),
       productName: customProduct.name.trim(),
       price: customProduct.price,
-      link: '#',
+      link: productLink.trim() || '#',
       x: pendingCoords.x,
       y: pendingCoords.y,
     };
@@ -236,6 +238,16 @@ export default function CreatePost() {
                   onChange={e => setProductSearch(e.target.value)}
                   style={{marginBottom:'10px'}}
                 />
+                <div className="form-group" style={{marginBottom:'10px'}}>
+                  <label style={{fontSize:'0.78rem',color:'var(--text3)',display:'block',marginBottom:'5px'}}>Purchase Link (optional)</label>
+                  <input
+                    type="url"
+                    className="input-field"
+                    placeholder="https://amazon.in/product..."
+                    value={productLink}
+                    onChange={e => setProductLink(e.target.value)}
+                  />
+                </div>
                 <div className="products-list">
                   {filteredProducts.slice(0, 8).map(p => (
                     <button key={p.id} className="product-item" onClick={() => addTag(p)}>
