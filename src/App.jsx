@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CreatePost from './pages/CreatePost';
 import Profile from './pages/Profile';
+import ShopPage from './pages/ShopPage';
 import './App.css';
 
 function ProtectedRoute({ children }) {
@@ -22,9 +23,7 @@ function AppLayout({ children }) {
   return (
     <div className="app-layout">
       <Sidebar />
-      <main className="app-main">
-        {children}
-      </main>
+      <main className="app-main">{children}</main>
     </div>
   );
 }
@@ -37,21 +36,10 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
       <Route path="/register" element={user ? <Navigate to="/" replace /> : <Register />} />
-      <Route path="/" element={
-        <ProtectedRoute>
-          <AppLayout><Home /></AppLayout>
-        </ProtectedRoute>
-      } />
-      <Route path="/create" element={
-        <ProtectedRoute>
-          <AppLayout><CreatePost /></AppLayout>
-        </ProtectedRoute>
-      } />
-      <Route path="/profile/:username" element={
-        <ProtectedRoute>
-          <AppLayout><Profile /></AppLayout>
-        </ProtectedRoute>
-      } />
+      <Route path="/" element={<ProtectedRoute><AppLayout><Home /></AppLayout></ProtectedRoute>} />
+      <Route path="/create" element={<ProtectedRoute><AppLayout><CreatePost /></AppLayout></ProtectedRoute>} />
+      <Route path="/profile/:username" element={<ProtectedRoute><AppLayout><Profile /></AppLayout></ProtectedRoute>} />
+      <Route path="/shop" element={<ProtectedRoute><AppLayout><ShopPage /></AppLayout></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
