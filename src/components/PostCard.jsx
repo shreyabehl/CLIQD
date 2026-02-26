@@ -24,8 +24,14 @@ const PlayIcon = () => (
 );
 const TrashIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/>
-    <path d="M9 6V4h6v2"/>
+    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
+    <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+  </svg>
+);
+const ShopIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.56l1.65-9.44H6"/>
   </svg>
 );
 
@@ -36,8 +42,7 @@ function timeAgo(ts) {
   if (m < 60) return `${m}m ago`;
   const h = Math.floor(m / 60);
   if (h < 24) return `${h}h ago`;
-  const d = Math.floor(h / 24);
-  return `${d}d ago`;
+  return `${Math.floor(h / 24)}d ago`;
 }
 
 export default function PostCard({ post }) {
@@ -45,7 +50,7 @@ export default function PostCard({ post }) {
   const { toggleLike, deletePost } = usePosts();
   const navigate = useNavigate();
   const [activeTag, setActiveTag] = useState(null);
-  const [showTags, setShowTags] = useState(false);
+  const [showTags, setShowTags] = useState(true); // tags visible by default
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
 
@@ -57,6 +62,12 @@ export default function PostCard({ post }) {
     toggleLike(post.id, user.id);
   };
 
+  // Navigate to shop page
+  const goToShop = (tag, e) => {
+    e?.stopPropagation();
+    navigate('/shop', { state: { post, tag } });
+  };
+
   const handleTagClick = (tag, e) => {
     e.stopPropagation();
     setActiveTag(activeTag?.id === tag.id ? null : tag);
@@ -64,8 +75,8 @@ export default function PostCard({ post }) {
 
   const handleVideoToggle = () => {
     if (videoRef.current) {
-      if (isPlaying) { videoRef.current.pause(); }
-      else { videoRef.current.play(); }
+      if (isPlaying) videoRef.current.pause();
+      else videoRef.current.play();
       setIsPlaying(!isPlaying);
     }
   };
@@ -93,7 +104,7 @@ export default function PostCard({ post }) {
             </button>
           )}
           {isOwner && (
-            <button className="delete-btn" onClick={() => deletePost(post.id, user.id)} title="Delete post">
+            <button className="delete-btn" onClick={() => deletePost(post.id, user.id)}>
               <TrashIcon />
             </button>
           )}
@@ -104,25 +115,16 @@ export default function PostCard({ post }) {
       <div className="post-media-wrap" onClick={() => setActiveTag(null)}>
         {post.mediaType === 'video' ? (
           <div className="video-container" onClick={handleVideoToggle}>
-            <video
-              ref={videoRef}
-              src={post.mediaUrl}
-              className="post-media"
-              loop
-              playsInline
-              onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
-            />
-            {!isPlaying && (
-              <div className="play-overlay"><PlayIcon /></div>
-            )}
+            <video ref={videoRef} src={post.mediaUrl} className="post-media" loop playsInline
+              onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} />
+            {!isPlaying && <div className="play-overlay"><PlayIcon /></div>}
             <div className="reel-badge">REEL</div>
           </div>
         ) : (
           <img src={post.mediaUrl} alt={post.caption} className="post-media" loading="lazy" />
         )}
 
-        {/* Product Tags */}
+        {/* Product Tag Dots */}
         {showTags && post.tags?.map(tag => (
           <React.Fragment key={tag.id}>
             <button
@@ -132,22 +134,22 @@ export default function PostCard({ post }) {
             >
               <span className="tag-dot-inner" />
             </button>
+
+            {/* Tag popup with Shop Now */}
             {activeTag?.id === tag.id && (
               <div
                 className="tag-popup"
                 style={{
-                  left: `${Math.min(tag.x, 70)}%`,
-                  top: `${Math.min(tag.y + 6, 80)}%`
+                  left: `${Math.min(tag.x, 65)}%`,
+                  top: `${Math.min(tag.y + 6, 78)}%`
                 }}
                 onClick={e => e.stopPropagation()}
               >
                 <span className="tag-popup-name">{tag.productName}</span>
                 {tag.price && <span className="tag-popup-price">{tag.price}</span>}
-                {tag.link && tag.link !== '#' && (
-                  <a href={tag.link} target="_blank" rel="noreferrer" className="tag-popup-link">
-                    Shop Now →
-                  </a>
-                )}
+                <button className="tag-popup-shop-btn" onClick={(e) => goToShop(tag, e)}>
+                  <ShopIcon /> Shop Now
+                </button>
               </div>
             )}
           </React.Fragment>
@@ -156,21 +158,20 @@ export default function PostCard({ post }) {
 
       {/* Actions */}
       <div className="post-actions">
-        <button
-          className={`like-btn ${liked ? 'liked' : ''}`}
-          onClick={handleLike}
-        >
+        <button className={`like-btn ${liked ? 'liked' : ''}`} onClick={handleLike}>
           <HeartIcon filled={liked} />
           <span>{post.likes.length}</span>
         </button>
 
+        {/* Clickable product chips — go to shop */}
         {post.tags?.length > 0 && (
           <div className="post-tags-list">
             {post.tags.slice(0, 3).map(tag => (
-              <span key={tag.id} className="post-tag-chip">
+              <button key={tag.id} className="post-tag-chip clickable" onClick={(e) => goToShop(tag, e)}>
+                <ShopIcon />
                 {tag.productName}
                 {tag.price && <span className="chip-price">{tag.price}</span>}
-              </span>
+              </button>
             ))}
             {post.tags.length > 3 && (
               <span className="post-tag-chip more">+{post.tags.length - 3}</span>
