@@ -47,7 +47,6 @@ body {
 a { color: inherit; text-decoration: none; }
 button { cursor: pointer; border: none; background: none; font-family: var(--font-body); }
 input, textarea { font-family: var(--font-body); }
-
 img, video { max-width: 100%; display: block; }
 
 .btn-primary {
@@ -146,10 +145,67 @@ img, video { max-width: 100%; display: block; }
   animation: spin 0.7s linear infinite;
 }
 
-/* Loading skeleton */
 .skeleton {
   background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 8px;
 }
+
+/* ── LIGHT THEME ── */
+[data-theme="light"] {
+  --bg:       #f0eeff;
+  --bg2:      #e8e0ff;
+  --bg3:      #ddd4ff;
+  --surface:  #ffffff;
+  --surface2: #f5f0ff;
+  --border:   #c8b8f0;
+  --accent:       #7c3fc9;
+  --accent2:      #9f60f0;
+  --accent-glow:  rgba(124, 63, 201, 0.25);
+  --pink:         #d4206a;
+  --cyan:         #0077aa;
+  --text:   #1a0a2e;
+  --text2:  #3d2060;
+  --text3:  #7a5a9a;
+  --success: #1a7a40;
+  --danger:  #cc1133;
+}
+
+/* ── THEME TOGGLE BUTTON ── */
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 300;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--accent2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+.theme-toggle:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: scale(1.08);
+}
+
+
+
+
+
+
+
+
+
+
+
+
