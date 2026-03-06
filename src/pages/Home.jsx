@@ -54,7 +54,7 @@ export default function Home() {
   const [showDropdown, setShowDropdown] = useState(false);
   const searchRef = useRef(null);
 
-  const suggestedTags = ['earrings', 'sneakers', 'dress', 'jacket', 'bags', 'watches'];
+  const suggestedTags = ['earrings', 'sneakers', 'dress', 'jacket', 'bags', 'watches', 'jewellery']
 
   useEffect(() => {
     setPostResults(posts);
