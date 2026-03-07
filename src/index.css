@@ -1,14 +1,15 @@
 :root {
-  --bg: #0a0a0f;
-  --bg2: #12121a;
-  --bg3: #1a1a26;
-  --surface: #1e1e2e;
-  --surface2: #252538;
-  --border: #2a2a40;
-  --accent: #7c5cfc;
-  --accent2: #c084fc;
-  --accent-glow: rgba(124, 92, 252, 0.35);
-  --pink: #f472b6;
+  --bg:       #080c14;
+  --bg2:      #0c1220;
+  --bg3:      #111827;
+  --surface:  #141d2e;
+  --surface2: #1a2540;
+  --border:   #1e3050;
+  --accent:       #0066ff;
+--accent2:      #00d4ff;
+--accent-glow:  rgba(0, 102, 255, 0.4);
+--pink:         #00d4ff;
+--cyan:         #00eeff;
   --cyan: #22d3ee;
   --text: #f0f0ff;
   --text2: #a0a0c0;
@@ -105,6 +106,7 @@ img, video { max-width: 100%; display: block; }
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  border-top: 3px solid var(--accent);
   overflow: hidden;
 }
 

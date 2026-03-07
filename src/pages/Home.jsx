@@ -289,8 +289,8 @@ export default function Home() {
           ) : isSearching ? (
             <div className="empty-feed">
               <div className="empty-icon">🔍</div>
-              <h3>No posts found</h3>
-              <p>Try searching for a product name or caption</p>
+              <h3>No posts yet</h3>
+              <p>Follow some people or create your first post</p>
             </div>
           ) : (
             <div className="empty-feed">
